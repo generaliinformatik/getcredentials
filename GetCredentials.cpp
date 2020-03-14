@@ -10,32 +10,37 @@ GetCredentials::GetCredentials(QWidget *parent)
 {
   ui->setupUi(this);
 
+  // remove question mark from title bar
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
   QCommandLineParser parser;
+  // only long options supported, e.g. "--description"
   parser.addOptions({
-      { "description",    "set description text",    "description" }
-    , { "disableUser",    "disable user field"                     }
-    , { "emptyPassword",  "allow empty password"                   }
-    , { "help",           "show help"                              }
-    , { "user",           "set default user",        "user"        }
-    , { "verifyPassword", "enter password two times"               }
-    , { "windowTitle",    "set window title",        "title"       }
+      { "description",    "set description text",         "description" }
+    , { "disableUser",    "disable user field"                          }
+    , { "emptyPassword",  "allow empty password"                        }
+    , { "help",           "show help"                                   }
+    , { "user",           "set default user",             "user"        }
+    , { "verifyPassword", "require password verification"               }
+    , { "windowTitle",    "set window title",             "title"       }
   });
 
   parser.process(*qApp);
 
   if (parser.isSet("help"))
-    parser.showHelp();
+    parser.showHelp();   // quits the app
 
   if (not parser.value("description").isEmpty())
     ui->lblDescription->setText(parser.value("description"));
+
   ui->leUser->setDisabled(parser.isSet("disableUser"));
   m_allowEmptyPassword = parser.isSet("emptyPassword");
   ui->leUser->setText(parser.value("user"));
+
   m_verifyPassword = parser.isSet("verifyPassword");
   if (not m_verifyPassword)
-    ui->lePassword2->close();
+    ui->lePassword2->close();  // remove element from UI
+
   if (not parser.value("windowTitle").isEmpty())
     setWindowTitle(parser.value("windowTitle"));
 }

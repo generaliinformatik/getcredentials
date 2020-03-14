@@ -16,10 +16,11 @@ public:
   ~GetCredentials();
 
 private slots:
+  // buttons
   void on_pbOk_clicked();
-
   void on_pbCancel_clicked();
 
+  // closing dialog by clicking X or hitting ESC
   void on_GetCredentials_rejected();
 
 private:
