@@ -20,6 +20,8 @@ private slots:
 
   void on_pbCancel_clicked();
 
+  void on_GetCredentials_rejected();
+
 private:
   Ui::GetCredentials *ui;
 

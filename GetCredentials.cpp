@@ -80,3 +80,8 @@ void GetCredentials::on_pbCancel_clicked()
 {
   qApp->exit(1);
 }
+
+void GetCredentials::on_GetCredentials_rejected()
+{
+  qApp->exit(1);
+}
