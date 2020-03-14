@@ -33,5 +33,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
   GetCredentials.qrc
 
+RC_ICONS = \
+  yellow_key.ico
+
 DEFINES += \
   GETCREDENTIALS_VERSION=\\\"$$system(git describe --always --tags)\\\"
