@@ -10,6 +10,8 @@ GetCredentials::GetCredentials(QWidget *parent)
 {
   ui->setupUi(this);
 
+  ui->lblVersion->setText(QString("v") + GETCREDENTIALS_VERSION);
+
   // remove question mark from title bar
   setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
 
