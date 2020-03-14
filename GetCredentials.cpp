@@ -12,12 +12,13 @@ GetCredentials::GetCredentials(QWidget *parent)
 
   QCommandLineParser parser;
   parser.addOptions({
-      { { "d", "description"   }, "set description text", "description" }
-    , { { "e", "emptyPassword" }, "allow empty password"                }
-    , { { "n", "noUser"        }, "disable user field"                  }
-    , { { "u", "user"          }, "set default user",     "user"        }
-    , { { "w", "windowTitle"   }, "set window title",     "title"       }
-    , { { "?", "help"          }, "show help"                           }
+      { "description",    "set description text",    "description" }
+    , { "disableUser",    "disable user field"                     }
+    , { "emptyPassword",  "allow empty password"                   }
+    , { "help",           "show help"                              }
+    , { "user",           "set default user",        "user"        }
+    , { "verifyPassword", "enter password two times"               }
+    , { "windowTitle",    "set window title",        "title"       }
   });
 
   parser.process(*qApp);
@@ -25,11 +26,14 @@ GetCredentials::GetCredentials(QWidget *parent)
   if (parser.isSet("help"))
     parser.showHelp();
 
-  ui->leUser->setDisabled(parser.isSet("noUser"));
-  m_allowEmptyPassword = parser.isSet("emptyPassword");
   if (not parser.value("description").isEmpty())
     ui->lblDescription->setText(parser.value("description"));
+  ui->leUser->setDisabled(parser.isSet("disableUser"));
+  m_allowEmptyPassword = parser.isSet("emptyPassword");
   ui->leUser->setText(parser.value("user"));
+  m_verifyPassword = parser.isSet("verifyPassword");
+  if (not m_verifyPassword)
+    ui->lePassword2->close();
   if (not parser.value("windowTitle").isEmpty())
     setWindowTitle(parser.value("windowTitle"));
 }
@@ -47,6 +51,16 @@ void GetCredentials::on_pbOk_clicked()
     QMessageBox messageBox;
     messageBox.setWindowTitle("empty password");
     messageBox.setText("The password cannot be empty!");
+    messageBox.setStandardButtons(QMessageBox::Ok);
+    messageBox.setIcon(QMessageBox::Critical);
+    messageBox.exec();
+  }
+  else if (m_verifyPassword and
+           ui->lePassword->text() != ui->lePassword2->text())
+  {
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("password mismatch");
+    messageBox.setText("The passwords do not match!");
     messageBox.setStandardButtons(QMessageBox::Ok);
     messageBox.setIcon(QMessageBox::Critical);
     messageBox.exec();

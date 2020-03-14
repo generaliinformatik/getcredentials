@@ -24,5 +24,6 @@ private:
   Ui::GetCredentials *ui;
 
   bool m_allowEmptyPassword = false;
+  bool m_verifyPassword = false;
 };
 #endif // GETCREDENTIALS_HPP
