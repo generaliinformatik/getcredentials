@@ -10,6 +10,8 @@ GetCredentials::GetCredentials(QWidget *parent)
 {
   ui->setupUi(this);
 
+  setWindowFlags(windowFlags() & ~Qt::WindowContextHelpButtonHint);
+
   QCommandLineParser parser;
   parser.addOptions({
       { "description",    "set description text",    "description" }
