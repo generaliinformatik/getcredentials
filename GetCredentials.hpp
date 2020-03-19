@@ -28,5 +28,6 @@ private:
 
   bool m_allowEmptyPassword = false;
   bool m_verifyPassword = false;
+  int m_passwordLength = 0;
 };
 #endif // GETCREDENTIALS_HPP

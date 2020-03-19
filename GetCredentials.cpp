@@ -22,6 +22,7 @@ GetCredentials::GetCredentials(QWidget *parent)
     , { "disableUser",    "disable user field"                          }
     , { "emptyPassword",  "allow empty password"                        }
     , { "help",           "show help"                                   }
+    , { "minLength",      "password minimum length",      "length"      }
     , { "user",           "set default user",             "user"        }
     , { "verifyPassword", "require password verification"               }
     , { "windowTitle",    "set window title",             "title"       }
@@ -32,11 +33,14 @@ GetCredentials::GetCredentials(QWidget *parent)
   if (parser.isSet("help"))
     parser.showHelp();   // quits the app
 
-  if (not parser.value("description").isEmpty())
+  if (parser.isSet("description"))
     ui->lblDescription->setText(parser.value("description"));
 
   ui->leUser->setDisabled(parser.isSet("disableUser"));
   m_allowEmptyPassword = parser.isSet("emptyPassword");
+
+  if (parser.isSet("minLength"))
+    m_passwordLength = parser.value("minLength").toInt();
 
   if (parser.isSet("user"))
   {
@@ -59,8 +63,8 @@ GetCredentials::~GetCredentials()
 
 void GetCredentials::on_pbOk_clicked()
 {
-  if (ui->lePassword->text().isEmpty() and
-      not m_allowEmptyPassword)
+  if      (ui->lePassword->text().isEmpty() and
+           not m_allowEmptyPassword)
   {
     QMessageBox messageBox;
     messageBox.setWindowTitle("empty password");
@@ -75,6 +79,20 @@ void GetCredentials::on_pbOk_clicked()
     QMessageBox messageBox;
     messageBox.setWindowTitle("password mismatch");
     messageBox.setText("The passwords do not match!");
+    messageBox.setStandardButtons(QMessageBox::Ok);
+    messageBox.setIcon(QMessageBox::Critical);
+    messageBox.exec();
+  }
+  else if (m_passwordLength and
+           ui->lePassword->text().length() and
+           ui->lePassword->text().length() < m_passwordLength)
+  {
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("password too short");
+    messageBox.setText(
+        "The password must be at least " + QString::number(m_passwordLength) +
+        " characters long."
+    );
     messageBox.setStandardButtons(QMessageBox::Ok);
     messageBox.setIcon(QMessageBox::Critical);
     messageBox.exec();
