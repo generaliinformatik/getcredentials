@@ -37,7 +37,12 @@ GetCredentials::GetCredentials(QWidget *parent)
 
   ui->leUser->setDisabled(parser.isSet("disableUser"));
   m_allowEmptyPassword = parser.isSet("emptyPassword");
-  ui->leUser->setText(parser.value("user"));
+
+  if (parser.isSet("user"))
+  {
+    ui->leUser->setText(parser.value("user"));
+    ui->lePassword->setFocus();
+  }
 
   m_verifyPassword = parser.isSet("verifyPassword");
   if (not m_verifyPassword)
@@ -79,7 +84,12 @@ void GetCredentials::on_pbOk_clicked()
     QTextStream(stdout) << ui->leUser->text();
     QTextStream(stderr) << ui->lePassword->text();
 
-    close();
+    // Although the documentation specifically states that close() does
+    // not emit rejected(), it seems to be the case nevertheless.
+    // We have to use accept() here in order to not run into
+    // on_GetCredentials_rejected() as this would cause RC=1 even when
+    // clicking OK.
+    accept();
   }
 }
 
