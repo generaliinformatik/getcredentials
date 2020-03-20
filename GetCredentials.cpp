@@ -20,6 +20,7 @@ GetCredentials::GetCredentials(QWidget *parent)
   parser.addOptions({
       { "description",    "set description text",         "description" }
     , { "disableUser",    "disable user field"                          }
+    , { "disallowQuotes", "no quotes in passwords"                      }
     , { "emptyPassword",  "allow empty password"                        }
     , { "help",           "show help"                                   }
     , { "minLength",      "password minimum length",      "length"      }
@@ -37,6 +38,7 @@ GetCredentials::GetCredentials(QWidget *parent)
     ui->lblDescription->setText(parser.value("description"));
 
   ui->leUser->setDisabled(parser.isSet("disableUser"));
+  m_allowQuotes = !parser.isSet("disallowQuotes");
   m_allowEmptyPassword = parser.isSet("emptyPassword");
 
   if (parser.isSet("minLength"))
@@ -92,6 +94,19 @@ void GetCredentials::on_pbOk_clicked()
     messageBox.setText(
         "The password must be at least " + QString::number(m_passwordLength) +
         " characters long."
+    );
+    messageBox.setStandardButtons(QMessageBox::Ok);
+    messageBox.setIcon(QMessageBox::Critical);
+    messageBox.exec();
+  }
+  else if (!m_allowQuotes and
+           (ui->lePassword->text().contains('"') or
+            ui->lePassword->text().contains('\'')))
+  {
+    QMessageBox messageBox;
+    messageBox.setWindowTitle("no quotes allowed");
+    messageBox.setText(
+        "The password must not contain single or double quotes."
     );
     messageBox.setStandardButtons(QMessageBox::Ok);
     messageBox.setIcon(QMessageBox::Critical);
