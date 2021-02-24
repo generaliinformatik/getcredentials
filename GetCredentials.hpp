@@ -2,6 +2,7 @@
 #define GETCREDENTIALS_HPP
 
 #include <QDialog>
+#include <QKeyEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class GetCredentials; }
@@ -14,6 +15,9 @@ class GetCredentials : public QDialog
 public:
   GetCredentials(QWidget *parent = nullptr);
   ~GetCredentials();
+
+protected:
+  virtual void keyPressEvent(QKeyEvent *event);
 
 private slots:
   // buttons

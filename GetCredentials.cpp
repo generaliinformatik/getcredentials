@@ -3,6 +3,7 @@
 #include <QCommandLineParser>
 #include <QMessageBox>
 #include <QTextStream>
+#include <QString>
 
 GetCredentials::GetCredentials(QWidget *parent)
   : QDialog(parent)
@@ -134,4 +135,29 @@ void GetCredentials::on_pbCancel_clicked()
 void GetCredentials::on_GetCredentials_rejected()
 {
   qApp->exit(1);
+}
+
+void GetCredentials::keyPressEvent(QKeyEvent *event)
+{
+  switch (event->key())
+  {
+    case Qt::Key_F1:
+    {
+      QMessageBox::about(this,
+                         "About GetCredentials",
+                         QString("GetCredentials ") + GETCREDENTIALS_VERSION + "\n\n" +
+                         "This is a small helper to ask for credentials in scripts.\n\n"
+                         "https://github.com/generaliinformatik/getcredentials\n"
+                         "Licensed under GPLv3.\n\n"
+                         "Developed using Qt with mingw-w64.\n"
+                         "Icon by Smashicons via Flaticon.com.\n"
+                         "See README.md for details.");
+
+      break;
+    }
+    default:
+    {
+      break;
+    }
+  }
 }
