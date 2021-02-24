@@ -1,3 +1,5 @@
+// https://github.com/generaliinformatik/getcredentials
+// SPDX-License-Identifier: GPL-3.0-only
 #include "GetCredentials.hpp"
 #include <QApplication>
 
