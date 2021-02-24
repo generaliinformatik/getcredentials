@@ -2,13 +2,13 @@
 
 ![getcredentials](getcredentials.png)
 
-This project was created to replace a [Get-Credential](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-credential?view=powershell-7) cmdlet in a script in order to have more customization options.
+This project was created to replace a [Get-Credential](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.security/get-credential?view=powershell-7) cmdlet in a script in order to have more customization options (see features below). It will print the user name to stdout and the password to stderr.
 
 ## Features
 
-![getcredentials_help](getcredentials_help.png)
+Use the `--help` commandline option to show the help screen:
 
-(TODO explain features here)
+![getcredentials_help](getcredentials_help.png)
 
 ## Building
 
@@ -20,4 +20,5 @@ The [yellow key](https://www.flaticon.com/de/kostenloses-icon/schlussel_1679971)
 
 ## License
 
-[MIT](LICENSE) © 2020 Generali Deutschland Informatik Services GmbH
+This project is licensed under [GPLv3](LICENSE).  
+Using the [Qt framework](https://www.qt.io) licensed under [GPLv3](LICENSE).
