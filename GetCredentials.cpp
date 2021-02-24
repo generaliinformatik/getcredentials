@@ -32,7 +32,7 @@ GetCredentials::GetCredentials(QWidget *parent)
   parser.process(*qApp);
 
   if (parser.isSet("help"))
-    parser.showHelp();   // quits the app
+    parser.showHelp(0);   // also quits the app
 
   if (parser.isSet("description"))
     ui->lblDescription->setText(parser.value("description"));
